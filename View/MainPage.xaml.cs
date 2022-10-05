@@ -4,9 +4,7 @@ namespace MauiMVVM;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
-	public MainPage(DataItemViewModel dataItemViewModel)
+	public MainPage(DataItemListViewModel dataItemViewModel)
 	{
 		InitializeComponent();
 		BindingContext = dataItemViewModel;

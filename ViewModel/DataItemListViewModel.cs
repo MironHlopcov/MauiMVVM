@@ -5,16 +5,40 @@ using System.Collections.ObjectModel;
 
 namespace MauiMVVM.ViewModel
 {
-    public class DataItemViewModel : BaseViewModel
+    public class DataItemListViewModel : BaseViewModel
     {
         DataItemService dataItemService;
 
         public ObservableCollection<DataItem> DataItems { get; } = new();
         public Command GetDataItemsComand { get; }
-
-        public DataItemViewModel(DataItemService dataItemService)
+        string name;
+        public string Name
         {
-            Title = "Data Items";
+            get => name;
+            set
+            {
+                if (name == value)
+                    return;
+                name = value;
+                OnPropertyChanged();
+
+            }
+        }
+        string image;
+        public string Image
+        {
+            get => image;
+            set
+            {
+                if (image == value)
+                    return;
+                image = value;
+                OnPropertyChanged();
+
+            }
+        }
+        public DataItemListViewModel(DataItemService dataItemService)
+        {
             this.dataItemService = dataItemService;
             GetDataItemsComand = new Command(async () => await GetDataItemAsync());
         }

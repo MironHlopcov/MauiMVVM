@@ -5,7 +5,7 @@
              xmlns:viewmodel ="clr-namespace:MauiMVVM.ViewModel"
              x:Class="MauiMVVM.MainPage"
              x:DataType="viewmodel:DataItemViewModel"
-             Title="{Binding Title}">
+             Title="Title">
 
     <Grid
         ColumnDefinitions="*,*"
@@ -18,20 +18,9 @@
                         Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:DataItem">
-                    <Frame HeightRequest="125" Style="{StaticResource CardView}">
-                        <Grid Padding="0" ColumnDefinitions="125,*">
-                            <Image Aspect="AspectFill" Source="{Binding Image}"
-                                       WidthRequest="125"
-                                       HeightRequest="125">
-                            </Image>
-                            <StackLayout
-                                    Grid.Column="1"
-                                    Padding="10"
-                                    VerticalOptions="Center">
-                                <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}"/>
-                            </StackLayout>
-                        </Grid>
-                    </Frame>
+                 
+                                <Label Text="{Binding Name}"/>
+                 
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

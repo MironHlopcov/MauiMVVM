@@ -10,33 +10,7 @@ namespace MauiMVVM.ViewModel
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        string title;
-        public string Title 
-        { 
-            get=>title;
-            set 
-            {
-                if(title == value)
-                    return;
-                title = value;
-                OnPropertyChanged();
-
-            } }
-
-        string image;
-        public string Image
-        {
-            get => image;
-            set
-            {
-                if (image == value)
-                    return;
-                image = value;
-                OnPropertyChanged();
-
-            }
-        }
-
+       
         bool isBusy; 
         public bool IsBusy
         {
