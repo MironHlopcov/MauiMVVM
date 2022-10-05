@@ -7,40 +7,40 @@ namespace MauiMVVM.ViewModel
 {
     public class DataItemViewModel : BaseViewModel
     {
-        public DataItem DataItem { get; private set; }
-        
-        string name;
-        public string Name
+        DataItemService dataItemService;
+
+        public ObservableCollection<DataItem> DataItems { get; } = new();
+        public Command GetDataItemsComand { get; }
+
+        public DataItemViewModel(DataItemService dataItemService)
         {
-            get => name;
-            set
+            Title = "Data Items";
+            this.dataItemService = dataItemService;
+            GetDataItemsComand = new Command(async () => await GetDataItemAsync());
+        }
+        async Task GetDataItemAsync()
+        {
+            if(IsBusy)
+                return;
+            try
             {
-                if (name == value)
-                    return;
-                name = value;
-                OnPropertyChanged();
+                IsBusy = true;
+                var dataItems = await dataItemService.GetDataItems();
+                if (DataItems.Count != 0)
+                    DataItems.Clear();
+                foreach (var it in dataItems)
+                    DataItems.Add(it);
 
             }
-        }
-
-        string image;
-        public string Image
-        {
-            get => image;
-            set
+            catch(Exception ex)
             {
-                if (image == value)
-                    return;
-                image = value;
-                OnPropertyChanged();
-
+                Console.WriteLine($"Unable to get DataItems: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Unable to get DataItems: {ex.Message}", "Ok");
+            }
+            finally
+            { 
+                IsBusy = false;
             }
         }
-
-        public DataItemViewModel(DataItem dataItem)
-        {
-            DataItem = new();
-        }
-      
     }
 }

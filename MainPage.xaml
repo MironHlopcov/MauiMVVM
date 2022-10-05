@@ -4,20 +4,34 @@
              xmlns:model ="clr-namespace:MauiMVVM.Model"
              xmlns:viewmodel ="clr-namespace:MauiMVVM.ViewModel"
              x:Class="MauiMVVM.MainPage"
-             x:DataType="viewmodel:DataItemListViewModel"
-             Title="DataItems">
+             x:DataType="viewmodel:DataItemViewModel"
+             Title="{Binding Title}">
 
     <Grid
-        ColumnDefinitions="*,Auto"
-        ColumnSpacing="5"
+        ColumnDefinitions="*,*"
         RowDefinitions="*,Auto"
-        RowSpacing="0">
+        ColumnSpacing="5"
+        RowSpacing="1">
+        
         <CollectionView ItemsSource="{Binding DataItems}"
                         SelectionMode="None"
                         Grid.ColumnSpan="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:DataItem">
-                    <Label Text="{Binding Name}"></Label>
+                    <Frame HeightRequest="125" Style="{StaticResource CardView}">
+                        <Grid Padding="0" ColumnDefinitions="125,*">
+                            <Image Aspect="AspectFill" Source="{Binding Image}"
+                                       WidthRequest="125"
+                                       HeightRequest="125">
+                            </Image>
+                            <StackLayout
+                                    Grid.Column="1"
+                                    Padding="10"
+                                    VerticalOptions="Center">
+                                <Label Style="{StaticResource LargeLabel}" Text="{Binding Name}"/>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -25,8 +39,7 @@
                 Command="{Binding GetDataItemsComand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="1"
-                Grid.Column="0"
-                 Grid.ColumnSpan="2">
+                Grid.Column="0">
         </Button>
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
