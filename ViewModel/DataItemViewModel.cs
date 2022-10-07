@@ -18,8 +18,6 @@ namespace MauiMVVM.ViewModel
         public DataItemViewModel(DataItem item)
         {
             this.DataItem = item;
-            //this.Name = item.Name;
-            //this.image = item.Image;
         }
       
         private DataItemListViewModel dataItemListViewModel;

@@ -49,13 +49,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="View\DataItemPage.xaml.cs">
-	    <DependentUpon>DataItemPage.xaml</DependentUpon>
+	  <Compile Update="View\DataItemListPage.xaml.cs">
+	    <DependentUpon>DataItemListPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="View\AppFlyoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\AppTabbedPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\DataItemDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\FlyoutContentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

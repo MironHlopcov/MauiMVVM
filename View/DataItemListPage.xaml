@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model ="clr-namespace:MauiMVVM.Model"
              xmlns:viewmodel ="clr-namespace:MauiMVVM.ViewModel"
-             x:Class="MauiMVVM.DataItemPage"
+             x:Class="MauiMVVM.DataItemListPage"
              x:DataType="viewmodel:DataItemListViewModel"
              Title="Title">
     <Grid

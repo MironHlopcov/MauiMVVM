@@ -3,9 +3,9 @@ using MauiMVVM.Service;
 
 namespace MauiMVVM;
 
-public partial class DataItemPage : ContentPage
+public partial class DataItemListPage : ContentPage
 {
-	public DataItemPage()
+	public DataItemListPage()
 	{
         DataItemService dataItemService = new DataItemService();
         InitializeComponent();

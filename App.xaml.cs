@@ -7,7 +7,9 @@ public partial class App : Application
 	public App()
 	{
 		InitializeComponent();
-		MainPage = new NavigationPage( new DataItemPage());
-		
-	}
+		//MainPage = new NavigationPage( new DataItemListPage());
+		//MainPage = new AppTabbedPage();
+		MainPage = new AppFlyoutPage();
+
+    }
 }
