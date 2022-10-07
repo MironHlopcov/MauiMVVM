@@ -1,4 +1,5 @@
 ﻿using MauiMVVM.Service;
+using MauiMVVM.View;
 using MauiMVVM.ViewModel;
 
 namespace MauiMVVM;
@@ -15,9 +16,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-		builder.Services.AddTransient<MainPage>();
-		builder.Services.AddTransient<DataItemListViewModel>();
-		builder.Services.AddSingleton<DataItemService>();
+		//builder.Services.AddTransient<DataItemPage>();
+		//builder.Services.AddTransient<DataItemDetailPage>();
+		//builder.Services.AddTransient<DataItemListViewModel>();
+		//builder.Services.AddTransient<DataItemDetailsViewModel>();
+		//builder.Services.AddSingleton<DataItemService>();
 		return builder.Build();
 	}
 }

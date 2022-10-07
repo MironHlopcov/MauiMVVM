@@ -1,5 +1,6 @@
 ﻿using MauiMVVM.Model;
 using MauiMVVM.Service;
+using MauiMVVM.View;
 using System.Collections.ObjectModel;
 
 
@@ -7,64 +8,108 @@ namespace MauiMVVM.ViewModel
 {
     public class DataItemListViewModel : BaseViewModel
     {
-        DataItemService dataItemService;
+      
+        public DataItemService DataItemService { get; set; }
 
-        public ObservableCollection<DataItem> DataItems { get; } = new();
+        private List<DataItemViewModel> dataItems { get; set; } = new();
+        public ObservableCollection<DataItemViewModel> DataItems { get; set; }
+
+        public INavigation Navigation { get; set; }
         public Command GetDataItemsComand { get; }
-        string name;
-        public string Name
+        public Command GetDataItemsDetailPageComand { get; }
+        public Command SearchDataItemsComand { get; }
+
+        string searchText;
+        public string SearchText
         {
-            get => name;
+            get => searchText;
             set
             {
-                if (name == value)
+                if (searchText == value)
                     return;
-                name = value;
-                OnPropertyChanged();
+                searchText = value;
+                if (string.IsNullOrWhiteSpace(searchText))
+                    SearchDataItems();
+                // OnPropertyChanged(); //если текст не меняется из кода применять нет смысла
 
             }
         }
-        string image;
-        public string Image
+
+        DataItemViewModel selectedDataItem;
+        public DataItemViewModel SelectedDataItem
         {
-            get => image;
+            get => selectedDataItem;
             set
             {
-                if (image == value)
+                if (selectedDataItem == value)
                     return;
-                image = value;
-                OnPropertyChanged();
-
+                selectedDataItem = value;
             }
         }
-        public DataItemListViewModel(DataItemService dataItemService)
+
+        public DataItemListViewModel()
         {
-            this.dataItemService = dataItemService;
+            DataItems = new ObservableCollection<DataItemViewModel>();
             GetDataItemsComand = new Command(async () => await GetDataItemAsync());
+            SearchDataItemsComand = new Command(SearchDataItems);
+            GetDataItemsDetailPageComand = new Command(GetDataItemsDetailPage);
         }
+
+        async void GetDataItemsDetailPage(object obj)
+        {
+            await Navigation.PushAsync(new DataItemDetailPage((obj as DataItemViewModel)));
+        }
+
         async Task GetDataItemAsync()
         {
-            if(IsBusy)
+            if (IsBusy)
                 return;
             try
             {
                 IsBusy = true;
-                var dataItems = await dataItemService.GetDataItems();
-                if (DataItems.Count != 0)
-                    DataItems.Clear();
-                foreach (var it in dataItems)
-                    DataItems.Add(it);
-
+                if (dataItems.Count != 0)
+                    dataItems.Clear();
+                var dataItemsFromDb = await DataItemService.GetDataItems();
+                for (int i = 0; i < 10; i++)
+                {
+                    foreach (var data in dataItemsFromDb)
+                    {
+                        dataItems.Add(new DataItemViewModel(data)
+                        {
+                            DataItemListViewModel = this
+                        });
+                    }
+                }
+               
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Unable to get DataItems: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error", $"Unable to get DataItems: {ex.Message}", "Ok");
             }
             finally
-            { 
+            {
+                foreach (var data in dataItems)
+                {
+                    DataItems.Add(data);
+                }
                 IsBusy = false;
             }
         }
+        void SearchDataItems()
+        {
+            if (string.IsNullOrEmpty(searchText))
+            {
+                DataItems.Clear();
+                dataItems.ForEach(d => DataItems.Add(d));
+            }
+            else
+            {
+                DataItems.Clear();
+                var result = dataItems.Where(d => d.Name.Contains(searchText)).ToList();
+                result.ForEach(d => DataItems.Add(d));
+            }
+        }
+
     }
 }
