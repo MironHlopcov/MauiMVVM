@@ -17,7 +17,7 @@ namespace MauiMVVM.ViewModel
         public INavigation Navigation { get; set; }
         public Command GetDataItemsComand { get; }
         public Command GetDataItemsDetailPageComand { get; }
-        public Command SearchDataItemsComand { get; }
+        
 
         string searchText;
         public string SearchText
@@ -96,6 +96,14 @@ namespace MauiMVVM.ViewModel
                 IsBusy = false;
             }
         }
+
+
+        
+        Dictionary<string, string[]> FiltredFildsValues = new Dictionary<string, string[]>();
+        Dictionary<string, string> FiltredFildsLabels = new Dictionary<string, string>();
+
+
+        public Command SearchDataItemsComand { get; }
         void SearchDataItems()
         {
             if (string.IsNullOrEmpty(searchText))
@@ -109,6 +117,16 @@ namespace MauiMVVM.ViewModel
                 var result = dataItems.Where(d => d.Name.Contains(searchText)).ToList();
                 result.ForEach(d => DataItems.Add(d));
             }
+        }
+        void InitializeFilter()
+        {
+            FiltredFildsLabels.Add("Names", nameof(DataItemViewModel.Name));
+            List<string> values= new List<string>();
+            foreach (var item in DataItems)
+            {
+               // values.Add(GetType(DataItemViewModel).GetField("").GetValue);
+            }
+
         }
 
     }

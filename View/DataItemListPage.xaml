@@ -5,54 +5,65 @@
              xmlns:viewmodel ="clr-namespace:MauiMVVM.ViewModel"
              x:Class="MauiMVVM.DataItemListPage"
              x:DataType="viewmodel:DataItemListViewModel"
+             xmlns:con="clr-namespace:MauiMVVM.Controls"
              Title="Title">
-    <Grid
+    <Grid ColumnDefinitions="{OnIdiom Phone='*', Default='.75*,.25*'}">
+        <Grid
+        Grid.Column="0"
         ColumnDefinitions="*,*"
         RowDefinitions="Auto,*,Auto"
         ColumnSpacing="5"
         RowSpacing="1">
-        <SearchBar Text="{Binding SearchText}" SearchCommand="{Binding SearchDataItemsComand}"
-                   Grid.ColumnSpan="2"/>
-        <CollectionView ItemsSource="{Binding DataItems}"
+         
+            <CollectionView ItemsSource="{Binding DataItems}"
                         SelectedItems="{Binding SelectedDataItem}"
                         SelectionMode="None"
                         Grid.Row="1"
                         Grid.ColumnSpan="2">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:DataItem">
-                    <Frame BackgroundColor="Gray">
-                        <Frame.GestureRecognizers>
-                            <TapGestureRecognizer
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:DataItem">
+                        <Frame BackgroundColor="Gray">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
                                 NumberOfTapsRequired="1"
                                 CommandParameter="{Binding .}"
                                 Command="{Binding 
                                 Source={RelativeSource AncestorType={
                                 x:Type viewmodel:DataItemListViewModel}}, 
                                 Path=GetDataItemsDetailPageComand}">
-                            </TapGestureRecognizer>
-                        </Frame.GestureRecognizers>
-                        <Grid ColumnDefinitions="125, *"
+                                </TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="125, *"
                           RowDefinitions="125">
-                            <Image Source="{Binding Image}"/>
-                            <Label Text="{Binding Name}"
+                                <Image Source="{Binding Image}"/>
+                                <Label Text="{Binding Name}"
                            Grid.Column="1"/>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <Button Text="Get Datas"
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Get Datas"
                 Command="{Binding GetDataItemsComand}"
                 IsEnabled="{Binding IsNotBusy}"
                 Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Grid.Column="0">
-        </Button>
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
+            </Button>
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            Grid.RowSpan="2"
                            Grid.ColumnSpan="2">
 
-        </ActivityIndicator>
+            </ActivityIndicator>
+        </Grid>
+        <ScrollView Grid.Column="1"
+                    IsVisible="{OnIdiom Phone='False', Default='True'}">
+            <con:FilterPanel/>
+        </ScrollView>
     </Grid>
 </ContentPage>
+
+
+<!--<SearchBar Text="{Binding SearchText}" SearchCommand="{Binding SearchDataItemsComand}"
+                   Grid.ColumnSpan="2"/>-->
