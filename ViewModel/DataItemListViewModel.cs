@@ -8,7 +8,7 @@ namespace MauiMVVM.ViewModel
 {
     public class DataItemListViewModel : BaseViewModel
     {
-      
+
         public DataItemService DataItemService { get; set; }
 
         private List<DataItemViewModel> dataItems { get; set; } = new();
@@ -17,7 +17,7 @@ namespace MauiMVVM.ViewModel
         public INavigation Navigation { get; set; }
         public Command GetDataItemsComand { get; }
         public Command GetDataItemsDetailPageComand { get; }
-        
+
 
         string searchText;
         public string SearchText
@@ -53,6 +53,12 @@ namespace MauiMVVM.ViewModel
             GetDataItemsComand = new Command(async () => await GetDataItemAsync());
             SearchDataItemsComand = new Command(SearchDataItems);
             GetDataItemsDetailPageComand = new Command(GetDataItemsDetailPage);
+
+            //var filtredFilds = new Dictionary<string, string[]>();
+            //filtredFilds.Add("test", new string[] { "123", "321", "123", "321" });
+            //filtredFilds.Add("test2", new string[] { "123", "321", "123", "321" });
+            //filtredFilds.Add("test3", new string[] { "123", "321", "123", "321" });
+          //  FiltredFilds = filtredFilds;
         }
 
         async void GetDataItemsDetailPage(object obj)
@@ -80,7 +86,7 @@ namespace MauiMVVM.ViewModel
                         });
                     }
                 }
-               
+
             }
             catch (Exception ex)
             {
@@ -95,12 +101,29 @@ namespace MauiMVVM.ViewModel
                 }
                 IsBusy = false;
             }
+            var names = dataItems.Select(d => d.Name).ToArray();
+            var temp = new Dictionary<string, string[]> ();
+            temp.Add("Name", names);
+            FiltredFilds = temp;
         }
 
 
-        
-        Dictionary<string, string[]> FiltredFildsValues = new Dictionary<string, string[]>();
+
+        private Dictionary<string, string[]> filtredFilds = new Dictionary<string, string[]>();
+        public  Dictionary<string, string[]> FiltredFilds
+        {
+            get => filtredFilds;
+            set
+            {
+                if (filtredFilds == value)
+                    return;
+                filtredFilds = value;
+                OnPropertyChanged(); //если текст не меняется из кода применять нет смысла
+            }
+        }
+
         Dictionary<string, string> FiltredFildsLabels = new Dictionary<string, string>();
+
 
 
         public Command SearchDataItemsComand { get; }
@@ -120,13 +143,7 @@ namespace MauiMVVM.ViewModel
         }
         void InitializeFilter()
         {
-            FiltredFildsLabels.Add("Names", nameof(DataItemViewModel.Name));
-            List<string> values= new List<string>();
-            foreach (var item in DataItems)
-            {
-               // values.Add(GetType(DataItemViewModel).GetField("").GetValue);
-            }
-
+            FiltredFilds.Add("Name", dataItems.Select(d => d.Name).ToArray());
         }
 
     }

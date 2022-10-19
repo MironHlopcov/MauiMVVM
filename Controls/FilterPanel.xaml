@@ -11,7 +11,17 @@
             <SearchBar x:Name="SearchBar" 
                        Text="{Binding SearchText}" 
                        SearchCommand="{Binding SearchDataItemsComand}"/>
-            <con:ExpandableList x:Name="NameGr"/>
+            <ListView
+                ItemsSource="{Binding FiltredFilds}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <con:ExpandElement
+                            FiltredFilds="{Binding .}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+           
+
         </VerticalStackLayout>
     </ScrollView>
 </Grid>
